@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .wrapper{
+            top : 0;
+            left : 0;
+            right : 0;
+            bottom: 0;
+            background-color: #00000000;
+            width:100%;
+            height:100%
+        }
+        html,body{
+            background-color: #00000000;
+            width:100%;
+            height:100%
+        }
+    </style>
+    <script>
+        if (window.WebViewJavascriptBridge) {
+            //do your work here
+        } else {
+            document.addEventListener(
+                    'WebViewJavascriptBridgeReady'
+                    , function() {
+                        //do your work here
+                    },
+                    false
+            );
+        }
+    </script>
+</head>
+<body>
+    <div id="wrapper" class="wrapper">
+
+    </div>
+    <script src="./js/common.js"></script>
+    <script src="./js/bundle.js"></script>
+</body>
+</html>

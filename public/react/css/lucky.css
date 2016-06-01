@@ -1,0 +1,114 @@
+.code{
+    text-align: center;
+    left: 0;
+    right: 0;
+    height: 10%;
+    padding-top:40px;
+    width: 100%;
+}
+.code input{
+    height: 30px;
+    width: 70%;
+    font-size: large;
+}
+table{
+    margin:auto;
+    text-align: center;
+    width: 90%;
+    border: 12px solid black;
+}
+.lucky{
+    width: 30%;
+    height: 30%;
+    border: 1px solid;
+    vertical-align: middle;
+
+}
+.mid-btn{
+    width: 30%;
+    height: 30%;
+    border: 1px solid;
+}
+.full-td img{
+    width: 50%;
+}
+.full-td {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 1em;
+}
+.stop{
+    position: absolute;
+    background-color: #CDCDCD;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    z-index: 1001;
+}
+.prize{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: table-cell;
+    vertical-align: middle;
+}
+.result{
+    z-index: 1002;
+    background-color: rgba(149, 149, 149, 0.32);
+    position: absolute;
+    top:0;
+    width: 100%;
+}
+.container{
+    width: 80%;
+    background-color: #fff;
+    color: black;
+    margin-top: 15%;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    border-radius: 2em;
+}
+.container input{
+    color:black;
+    width: 80%;
+    margin-left: 20px;
+}
+.prize-body{
+    height: 60%;
+    margin-top: 10%;
+    width: 100%;
+}
+.prize-title{
+    height: 15%;
+}
+.prize-title-name{
+    position: absolute;
+    bottom:0;
+    width: 100%;
+    color: black;
+    height: 20%;
+    font-weight: bold;
+    font-size: smaller;
+}
+.prize-description{
+    text-align: center;
+}
+.prize-description .row{
+    color: black;
+    font-size: 200%;
+    font-weight: bold;
+    width: 100%;
+    text-align: left;
+}
+.prize-description ul{
+    list-style-type: none;
+    background-color: #BE0463;
+    color: white;
+    width: 80%;
+    text-align: left;
+    margin: auto;
+}
+#start{
+    width: 100%;
+}
