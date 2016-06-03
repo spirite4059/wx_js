@@ -199,10 +199,10 @@ var Lucky = React.createClass({
                <div className='row'><div className='col-xs-12 col-md-12'>Draw conditions</div></div>
                <div style={{textAlign:'left'}}>
                    <ul>
-                       <li>1.	Every user can only enter the raffle in one restaurant for one time.</li>
-                       <li>2.	You will have chance to get prize on your screen.</li>
-                       <li>3.	If you are lucky to get one of the prizes, please leave your email address, we will contact you for address via email</li>
-                       <li>4.	Reserved rights for final explanation.</li>
+                       <li>1.	Search "ilovechinesefood" on Facebook, no space in between!</li>
+                       <li>2.	Click on the link in the pinned post to enter the game</li>
+                       <li>3.	Find the device ID at the upper right corner of this screen</li>
+                       <li>4.	Put in the device ID(upper case) to start</li>
                    </ul>
                </div>
             </div>
