@@ -34,9 +34,10 @@ table{
 }
 .full-td {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 33.33%;
+    height: 33.33%;
     border-radius: 1em;
+    text-align: center;
 }
 .stop{
     position: absolute;
@@ -45,11 +46,11 @@ table{
     width: 100%;
     opacity: 0;
     z-index: 1001;
+    top: 0;
 }
 .prize{
     width: 100%;
     height: 100%;
-    position: absolute;
     display: table-cell;
     vertical-align: middle;
 }
@@ -75,24 +76,26 @@ table{
     margin-left: 20px;
 }
 .prize-body{
-    height: 60%;
-    margin-top: 10%;
+    height: 50%;
     width: 100%;
+    display: flex;
+    margin-top: 8%;
 }
 .prize-title{
     height: 15%;
 }
 .prize-title-name{
-    position: absolute;
-    bottom:0;
     width: 100%;
     color: black;
     height: 20%;
     font-weight: bold;
     font-size: smaller;
+    line-height: 100%;
+    margin-top: 5px;
 }
 .prize-description{
     text-align: center;
+    margin-top: 8%;
 }
 .prize-description .row{
     color: black;
@@ -101,14 +104,23 @@ table{
     width: 100%;
     text-align: left;
 }
-.prize-description ul{
-    list-style-type: none;
+.prize-description-content{
     background-color: #BE0463;
     color: white;
     width: 80%;
     text-align: left;
     margin: auto;
+    list-style: none;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
 }
-#start{
-    width: 100%;
+/*#start{*/
+    /*width: 100%;*/
+/*}*/
+.bandit-body{
+    display: flex;
+    width: 90%;
+    height: 100%;
+    flex-wrap: wrap;
+    margin: auto;
+    border: 15px solid black;
 }

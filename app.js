@@ -29,7 +29,7 @@ app.get('/android', function(req,res){
  * 奖品
  */
 app.get('/getJianPinListByDeviceId',function(req,res){
-    needle.get(Host+'/getJianPinListByDeviceId?deviceId=' + req.query.deviceId,function(err, response){
+    needle.get(Host+'/getJianPinListByDeviceId?deviceId=' + encodeURI(req.query.deviceId),function(err, response){
         if(response.statusCode){
             res.send(response.body);
         }else{
@@ -41,7 +41,7 @@ app.get('/getJianPinListByDeviceId',function(req,res){
  * 抽奖结果
  */
 app.get('/choujiang',function(req,res){
-        needle.get(Host+'/choujiang?huoDongId=' + req.query.huoDongId+'&userName='+req.query.userName+'&userId='+req.query.userId+'&deviceId='+req.query.deviceId,function(err, response){
+        needle.get(Host+'/choujiang?huoDongId=' + req.query.huoDongId+'&userName='+encodeURI(req.query.userName)+'&userId='+req.query.userId+'&deviceId='+encodeURI(req.query.deviceId),function(err, response){
             if(response.statusCode){
                 res.send(response.body);
             }else{
@@ -62,7 +62,7 @@ app.get('/setMail',function(req,res){
     });
 });
 app.get('/getChouJiangLog',function(req,res){
-    needle.get(Host+'/getChouJiangLog?deviceId='+req.query.deviceId+'&fetchsize='+8+'&start='+0,function(err, response){
+    needle.get(Host+'/getChouJiangLog?deviceId='+encodeURI(req.query.deviceId)+'&fetchsize='+8+'&start='+0,function(err, response){
         var body = response.body;
         if(response.statusCode){
             res.send(body);

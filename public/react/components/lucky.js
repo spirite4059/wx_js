@@ -6,7 +6,8 @@ var $ = require('jquery');
 var swal = require('sweetalert');
 var Bandit = require('./bandit');
 var request = require('superagent');
-
+var banditRun = require('../utils/bandit-run');
+var _ = require('underscore');
 require('sweetalert/dist/sweetalert.css');
 require('../css/lucky.css');
 var randomArr = [];
@@ -178,14 +179,15 @@ var Lucky = React.createClass({
         </div>;
         var list = this.state.list;
         var content;
-        if(list == 0){
-            content = <Bandit list={[]} randomArr={[]} result={this.state.result} start={this._start}/>;
+        if(!list || list == 0){
+            content = '';
         }else{
             var length = 0;
             if(list.length <= 8){
                 length = 8;
             }
             content = <Bandit list={list} randomArr={getRandomData(length)} result={this.state.result} start={this._start}/>;
+            content = <div className='prize-body'>{content}</div>
         }
 
 
@@ -194,16 +196,14 @@ var Lucky = React.createClass({
             <div style={{width:'100%',textAlign:'right'}}>
                 <div className="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false" style={{right:'0',top:'0px',position:'absolute'}}></div>
             </div>
-            <div className='prize-body'>{content}</div>
+            {content}
             <div className='prize-description'>
-               <div className='row'><div className='col-xs-12 col-md-12'>Draw conditions</div></div>
-               <div style={{textAlign:'left'}}>
-                   <ul>
-                       <li>1.	Search "ilovechinesefood" on Facebook, no space in between!</li>
-                       <li>2.	Click on the link in the pinned post to enter the game</li>
-                       <li>3.	Find the device ID at the upper right corner of this screen</li>
-                       <li>4.	Put in the device ID(upper case) to start</li>
-                   </ul>
+               <div className='row'><div className='col-xs-1 col-md-1'></div><div className='col-xs-11 col-md-11'>Rules</div></div>
+               <div className='prize-description-content'>
+                   <div>1.	Search "ilovechinesefood" on Facebook, no space in between!</div>
+                   <div>2.	Click on the link in the pinned post to enter the game</div>
+                   <div>3.	Find the device ID at the upper right corner of this screen</div>
+                   <div>4.	Put in the device ID(upper case) to start</div>
                </div>
             </div>
             {resultDiv}
@@ -245,21 +245,25 @@ var Lucky = React.createClass({
             e.preventDefault();
             return false;
         }
+        var _runArr = banditRun(size);
         startButton = true;
         $("#start").attr('disabled',true);
         var j;
-        var i = j = this.state.count;
+        var i = j = 0;
         var count = 0;
         var speed = 100;
-        var total = 3 * size - i;
+        var total = 3 * size;
         var req = request.get('/choujiang?huoDongId='+this.state.huoDongId+'&userName='+this.state.user.name+'&userId='+this.state.user.id+'&deviceId='+this.state.deviceId);
         //var req = request.get('/choujiang?huoDongId='+this.state.huoDongId+'&userName='+new Date().getTime()+'&userId='+this.state.user.id+'&deviceId='+this.state.deviceId);
         var message = '';
         req.end(function(err,res){
             if(res.body.code != 0){
-                $("#start").attr('disabled',false);
+                startButton = false;
+                $("#start").removeAttr('disabled');
                 message = res.body.message;
+                startButton = false;
                 swal(message);
+
                 return false;
             }
             var _rows = res.body.rows;
@@ -272,22 +276,23 @@ var Lucky = React.createClass({
             result.id = id;
             result.luckyNo = _rows.luckyNo;
             if(id == '-1'){
-                _class = $($('div[name="prize_-1"]')[0]).parent().parent();
+                _class = $($('div[name="prize_-1"]')[0]).parent();
             }else{
-                _class = $("#prize_"+id).parent().parent();
+                _class = $("#prize_"+id).parent();
             }
             result.name = _class.find('.prize-title-name').text();
             _class = _class.attr("class");
 
-            var number = parseInt(_class.substring(11));
-            total = total + number;
+            var number = parseInt(_class.substring(13));
+            total = total + _.indexOf(_runArr, number);
+
             var timer;
             timer = setTimeout(run,speed);
             var $this = this;
             function run(){
 
                 $('.stop').css("opacity",0);
-                $('.item-'+i).find('.stop').css("opacity",0.7);
+                $('.item-'+_runArr[i]).find('.stop').css("opacity",0.7);
                 j++;
                 count++;
                 if(j<size){
@@ -308,8 +313,12 @@ var Lucky = React.createClass({
                 if(count > total){
                     clearTimeout(timer);
                     startButton = false;
-                    $("#start").attr('disabled',false);
-                    $this.setState({count:i,flag:true,result:result})
+                    $("#start").removeAttr('disabled');
+                    var timer2 = setTimeout(function(){
+                        $this.setState({flag:true,result:result})
+                        clearTimeout(timer2);
+                    },1500);
+
                 }
 
 

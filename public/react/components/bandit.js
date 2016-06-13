@@ -14,7 +14,7 @@ var Prize = React.createClass({
         var index = this.props.index;
         index++;
         if(prize.id == -1){
-            return <div className='full-td'  style={{background:'url("./images/bg/'+ index + '.png") no-repeat ',backgroundSize: 'cover'}}>
+            return <div className={'full-td item-'+index}  style={{background:'url("./images/bg/'+ index + '.png") no-repeat ',backgroundSize: 'cover',order:index}}>
                 <div className='prize' name={'prize_'+prize.id}>
                     <img style={{marginTop:'15%'}} src={prize.pic} />
                 </div>
@@ -22,7 +22,7 @@ var Prize = React.createClass({
                 <div className='stop'></div>
             </div>;
         }
-        return <div className='full-td' style={{background:'url("./images/bg/'+ index + '.png") no-repeat ',backgroundSize: 'cover'}}>
+        return <div className={'full-td item-'+index} style={{background:'url("./images/bg/'+ index + '.png") no-repeat ',backgroundSize: 'cover',order:index}}>
             <div className='prize' id={'prize_'+prize.id}>
                 <img style={{marginTop:'15%'}} src={prize.pic} />
             </div>
@@ -40,15 +40,24 @@ var Bandit = React.createClass({
         }
     },
     componentDidMount : function(){
-        if(this.props.autoFlag&& this.props.list.length > 0&& this.state.refresh){
+        if($('.prize-body').length > 0){
+            var _table = $('.prize-body')[0];
+            var _width = _table.offsetWidth;
+            _table.style.minHeight = _width/1.2+'px';
+            $('.main-body').height($('body')[0].scrollHeight);
+        }
+        if(this.props.autoFlag && this.props.list.length > 0 && this.state.refresh){
             $('#start').click();
         }
-        var _table = $('table')[0];
-        var _width = _table.offsetWidth;
-        _table.style.height = _width/1.2+'px';
     },
     componentDidUpdate : function(){
 
+        if($('.prize-body').length > 0) {
+            var _table = $('.prize-body')[0];
+            var _width = _table.offsetWidth;
+            _table.style.minHeight = _width / 1.2 + 'px';
+            $('.main-body').height($('body')[0].scrollHeight);
+        }
         if(this.props.autoFlag && this.props.list.length > 0 && this.state.refresh){
             $('#start').click();
         }
@@ -81,42 +90,19 @@ var Bandit = React.createClass({
                     length = _length + _remainder;
                 }
             }
-            var trs = [];
             var tds = [];
 
             if(length == 8){//九宫格
-                for(var i = 0; i < 3;i++){//第一行
+                for(var i = 0;i < length;i++){
                     if(randomArr[i] >= _length) {
-                        tds.push(<td className={'lucky item-'+i} key={'td-'+i}><Prize prize={thankImg} index={i}/></td>);
+                        tds.push(<Prize prize={thankImg} index={i} key={i}/>);
                     }else{
-                        tds.push(<td className={'lucky item-'+i} key={'td-'+i}><Prize prize={list[randomArr[i]]} index={i} /></td>);
+                        tds.push(<Prize prize={list[randomArr[i]]} index={i} key={i}/>);
                     }
                 }
-                trs.push(<tr key={'tr'+1}>{tds}</tr>);
-                tds = [];
-                if(randomArr[3] >= _length) {
-                    tds.push(<td className={'lucky item-'+7} key={'td-'+3}><Prize prize={thankImg} index={3} /></td>);
-                }else{
-                    tds.push(<td className={'lucky item-'+7} key={'td-'+3}><Prize prize={list[randomArr[3]]}  index={3}/></td>);
-                }
-                tds.push(<td className='mid-btn' colSpan={1}  key={'td-'+999}><div className='full-td' id='start' style={{background:'url("./images/btn.png") no-repeat ',backgroundSize: 'cover'}} onClick={this.props.start.bind(null,length)}></div></td>);
-                if(randomArr[4] >= _length) {
-                    tds.push(<td className={'lucky item-'+3}  key={'td-'+4}><Prize prize={thankImg}  index={4}/></td>);
-                }else{
-                    tds.push(<td className={'lucky item-'+3} key={'td-'+4}><Prize prize={list[randomArr[4]]}  index={4}/></td>);
-                }
-                trs.push(<tr key={'tr'+2}>{tds}</tr>);
-                tds = [];
-                for(var i = 5; i < 8;i++){//最后一行
-                    if(randomArr[i] >= _length) {
-                        tds.push(<td className={'lucky item-'+(11-i)} key={'td-'+i}><Prize prize={thankImg}  index={i}/></td>);
-                    }else{
-                        tds.push(<td className={'lucky item-'+(11-i)} key={'td-'+i}><Prize prize={list[randomArr[i]]}  index={i}/></td>);
-                    }
-                }
-                trs.push(<tr key={'tr'+3}>{tds}</tr>);
+                tds.push(<div className='full-td' id='start' style={{background:'url("./images/btn.png") no-repeat ',backgroundSize: '100% 100%',order:4}} onClick={this.props.start.bind(null,length)} key={'btn-1'}></div>)
             }
-            content = <table><tbody>{trs}</tbody></table>;
+            content = <div className='bandit-body'>{tds}</div>;
         }
         return content;
     },

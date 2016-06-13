@@ -4,8 +4,10 @@
 var React = require('react');
 var request = require('superagent');
 var $ = require('jquery');
+var _ = require('underscore');
 var Bandit = require('./bandit');
 var TimerMixin = require('react-timer-mixin');
+var banditRun = require('../utils/bandit-run');
 require('../css/android.css');
 var randomArr = [];
 var timer;
@@ -187,11 +189,12 @@ var Android = React.createClass({
                         }
                         style.backgroundColor = 'rgba(88, 0, 99, 0.5)';
                         var _prizeNew = this.state.prizeNew[0];
-                        content = <div style={{textAlign:'center'}} className='ad1'>
+                        content = <div style={{textAlign:'center',height:'100%'}} className='ad1'>
                             <div style={{height:'50px',lineHeight:'50px',color:'white'}}><img style={{borderRadius:'99em',width:'auto'}} src={'http://graph.facebook.com/' + _prizeNew.userId + '/picture?type=small'} />{_prizeNew.userName}</div>
-                            <Bandit list={this.state.list} randomArr={getRandomData(length)} start={this._start} autoFlag={true} result={_prizeNew}/>
+                            <div style={{width:'60%',height:'80%',margin:'auto',display:'flex'}}><Bandit list={this.state.list} randomArr={getRandomData(length)} start={this._start} autoFlag={true} result={_prizeNew}/></div>
                         </div>
                     }
+
                 }
 
 
@@ -206,6 +209,7 @@ var Android = React.createClass({
     },
     _layout : function(data){//初始化界面只调用一次
         var obj = JSON.parse(data);
+
         var _prizeNew = [];
         var $this = this;
         request.get("/getChouJiangLog?deviceId="+obj.deviceId).end(function(err,res){
@@ -276,29 +280,30 @@ var Android = React.createClass({
     },
     _start : function(size,e){
             var prizeNew = this.state.prizeNew[0];
-            $("#start").attr('disabled',true);
+
+            var _banditArr = banditRun(size);
             var j;
-            var i = j = this.state.count;
+            var i = j = 0;
             var count = 0;
             var speed = 100;
-            var total = 3 * size - i;
+            var total = 3 * size;
             var _class;
             var id = prizeNew.huoDongConfigId;
-            if(id == ''){
-                _class = $($('div[name="prize_-1"]')[0]).parent().parent();
+            if(id == '' || id == null){
+                _class = $($('div[name="prize_-1"]')[0]).parent();
             }else{
-                _class = $("#prize_"+id).parent().parent();
+                _class = $("#prize_"+id).parent();
             }
             _class = _class.attr("class");
-            var number = parseInt(_class.substring(11));
-            total = total + number;
+            var number = parseInt(_class.substring(13));
+            total = total + _.indexOf(_banditArr, number);
             var timer;
             timer = setTimeout(run,speed);
             var $this = this;
             function run(){
 
                 $('.stop').css("opacity",0);
-                $('.item-'+i).find('.stop').css("opacity",0.7);
+                $('.item-'+_banditArr[i]).find('.stop').css("opacity",0.7);
                 j++;
                 count++;
                 if(j<size){
@@ -318,8 +323,6 @@ var Android = React.createClass({
                 timer = setTimeout(run,speed);
                 if(count > total){
                     clearTimeout(timer);
-                    $("#start").attr('disabled',false);
-
                     timer = setTimeout(function(){
                         var prizeNewList = $this.state.prizeNew;
                         prizeNewList.splice(0,1);
