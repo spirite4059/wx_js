@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    function D()
+    {
+        var test="beijing";
+        function mytest(){
+            //alert(this);
+            console.log(test);
+        }
+        return mytest;
+    }
+    var a=D();
+    //console.log("-------");
+    a();
+
+</script>
+
+</body>
+</html>

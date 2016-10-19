@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" > </script>
+    <link rel="stylesheet" href="http://demo.open.weixin.qq.com/jssdk/css/style.css?ts=1420774989">
+
+    <script>
+        //运行js
+        var dic3 = { "zs": "张三1", "ls": "李四1", "ww": "王五1" };
+        var output = "";
+
+        //既是个数组，也是一个类
+        dic3.sort();
+
+        for (var key in dic3)
+        {
+            if (output == "") {
+                output = dic3[key];
+            }
+            else {
+                output += "|" + dic3[key];
+            }
+        }
+        alert(output);
+    </script>
+</head>
+<body>  <!--  这是正常的页面，开始使用react  -->
+    <div>测试一个目前的信息</div>
+    <div id="wrapper">
+    </div>
+
+    <script src="./js/common.js"></script>
+    <script src="./js/bundle.js"></script>
+</body>
+
+</html>

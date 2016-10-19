@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+</head>
+
+<body>
+    <div id="aaa"></div>
+
+    <script src="../reactjs/react.js"> </script>
+    <script src="../reactjs/react-dom.js"> </script>
+    <script src="../reactjs/browser.min.js"> </script>
+    <script type="text/babel">
+
+       var Test1=React.createClass(
+               {
+                   render:function () {
+                       return  <h1>asdfasdfasdf {this.props.name}</h1>
+                   }
+               }
+       );
+
+       var HelloMessage = React.createClass({
+           render: function() {
+               return <h1>Hello {this.props.name}</h1>;
+           }
+       });
+
+       var Test2=React.createClass(
+           {
+               render:function () {
+                   return(
+                       <ol>
+                           {
+                               React.Children.map(
+                                   this.props.children,function (child) {
+                                       return <li>{child}</li>
+                                   }
+                               )
+                           }
+                       </ol>
+                   )
+               }
+           }
+       )
+
+       var Test3=React.createClass(
+       {
+            handleClick:function(){
+                this.refs.myTextInput.focus();
+            },
+           render:function()
+           {
+               return(
+                <div>
+                    <input type="text" ref="myTextInput" />
+                    <input type="button" value="focus the text input"
+                            onClick={this.handleClick} />
+                </div>
+               )
+           }
+       });
+
+       var Test4 =  React.createClass(
+               {
+                   getInitialState:function () {
+                       return {liked:false};
+                   }  //返回的是对象
+                   ,
+                   handleClick:function () {
+                     this.setState({liked:!this.state.liked});
+                   },
+                   render:function () {
+                       var text=this.state.liked?'like':'have not liked';   //
+                       return (
+                        <p onClick={this.handleClick}>
+                            You {text} this.Click to toggle
+                        </p>
+                       )
+                   }
+               }
+       );
+
+        //数组 -- 数量
+        var names=['a','b','c'];
+        ReactDOM.render(
+                <h1>asdfasdfasdf {this.props.name}</h1>,
+            document.getElementById('aaa')
+        );
+    </script>
+
+
+
+</body>
+</html>

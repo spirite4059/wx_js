@@ -1,19 +1,21 @@
-/**
- * Created by Administrator on 2016/5/26.
- */
+
+/*** Created by Administrator on 2016/5/26.   ***/
+
 var React = require('react');
 var request = require('superagent');
 var $ = require('jquery');
 var _ = require('underscore');
 var Bandit = require('./bandit');
-var TimerMixin = require('react-timer-mixin');
-var banditRun = require('../utils/bandit-run');
+var TimerMixin = require('react-timer-mixin');      //没有前缀的，就直接compnent里面；
+var banditRun = require('../utils/bandit-run');     //有前缀的在本地查找
 require('../css/android.css');
 var randomArr = [];
 var timer;
 var prizeLength = 0;
 
-var Results = React.createClass({
+
+var Results = React.createClass
+({   
     componentDidMount : function(){
         $('.result-title').css('line-height',$('.result-title').height()+'px');
     },
@@ -45,7 +47,7 @@ var Results = React.createClass({
 });
 
 
-
+//
 var Android = React.createClass({
     mixins: [TimerMixin],
     getInitialState : function(){
@@ -68,13 +70,14 @@ var Android = React.createClass({
     componentWillUnmount : function(){
         clearTimeout(timer);
     },
-    componentDidMount : function(){
-
+    componentDidMount : function()      //第一次加载，只运行一次
+    {
         var $this = this;
         var speed = 0;
         var pageCount = $this.state.pageCount;
         var imgList = $this.state.imgList;
         timer = setTimeout(run,500);
+
         function run(){
             pageCount = $this.state.pageCount;
             imgList = $this.state.imgList;
@@ -98,10 +101,11 @@ var Android = React.createClass({
             timer = setTimeout(run,speed);
         }
 
-
+        
         var _length = this.state.layout.length;
-        function connectWebViewJavascriptBridge(callback) {
-            if (window.WebViewJavascriptBridge) {
+        function connectWebViewJavascriptBridge(callback)
+        {
+            if (window.WebViewJavascriptBridge) {   // 调用java的函数
                 if(_length == 0){
                     WebViewJavascriptBridge.callHandler('submitFromWeb',{'param':'getLayout'},function(responseData){
                         $this._layout(responseData);
@@ -111,9 +115,13 @@ var Android = React.createClass({
             } else {
                 document.addEventListener(
                     'WebViewJavascriptBridgeReady'
-                    , function() {
+                    , function()
+                    {
+                        //目前已经reday了
+                        alert("目前可以接受调用了");
                         if(_length == 0){
-                            WebViewJavascriptBridge.callHandler('submitFromWeb',{'param':'getLayout'},function(responseData){
+                            WebViewJavascriptBridge.callHandler('submitFromWeb',{'param':'getLayout'},function(responseData)
+                            {
                                 $this._layout(responseData);
                             });
                         }
@@ -126,12 +134,12 @@ var Android = React.createClass({
 
         connectWebViewJavascriptBridge(function(bridge) {
             if(!bridge)return false;
-            bridge.init(function(message, responseCallback) {
+            bridge.init(function(message, responseCallback) {  //被java调用了
                 var data = {
                     'Javascript Responds': '测试中文!'
                 };
                 if(responseCallback)
-                responseCallback(data);
+                    responseCallback(data);
             });
             //bridge.registerHandler("layoutInJs", function (data, responseCallback) {
             //    $this._layout(data);
@@ -177,9 +185,6 @@ var Android = React.createClass({
                     }else{
                         content = <img style={{height:'100%',with :'100%'}} src={imgs[this.state.pageCount].adImageUrl} />;
                     }
-
-
-
                 }
                 if(ad.adType == 1){
                     if(this.state.prizeNew.length > 0){
@@ -194,22 +199,20 @@ var Android = React.createClass({
                             <div style={{width:'60%',height:'80%',margin:'auto',display:'flex'}}><Bandit list={this.state.list} randomArr={getRandomData(length)} start={this._start} autoFlag={true} result={_prizeNew}/></div>
                         </div>
                     }
-
                 }
-
 
                 divs.push(<div style={style} key={i} id={'ad'+ad.adType}  >
                     {content}
-
                 </div>);
             }
             body = divs;
         }
         return <div className='main-body'>{body}</div>;
     },
-    _layout : function(data){//初始化界面只调用一次
-        var obj = JSON.parse(data);
 
+    _layout : function(data){//初始化界面只调用一次
+
+        var obj = JSON.parse(data);
         var _prizeNew = [];
         var $this = this;
         request.get("/getChouJiangLog?deviceId="+obj.deviceId).end(function(err,res){
@@ -239,9 +242,7 @@ var Android = React.createClass({
                         prizeNew : _prizeNew,layout:obj.layout,deviceId:obj.deviceId
                     })
                 })
-
             })
-
         });
     },
     _show : function(data){
@@ -250,7 +251,7 @@ var Android = React.createClass({
         var _prizeNew = this.state.prizeNew;
         var $this = this;
         if(cmd){
-            if(cmd.isJsCommand == 1){
+            if(cmd.isJsCommand == 1){    //如果是自己的命令
                 var cmdList = cmd.cmd;
                 for(var i in cmdList){
                     var _cmd = cmdList[i];
@@ -321,18 +322,16 @@ var Android = React.createClass({
                     speed = 1000;
                 }
                 timer = setTimeout(run,speed);
-                if(count > total){
+                if(count > total) {
                     clearTimeout(timer);
-                    timer = setTimeout(function(){
+                    timer = setTimeout(function () {
                         var prizeNewList = $this.state.prizeNew;
-                        prizeNewList.splice(0,1);
-                        $this.setState({count:i,flag:true,prizeNew:prizeNewList});
+                        prizeNewList.splice(0, 1);
+                        $this.setState({count: i, flag: true, prizeNew: prizeNewList});
                         clearTimeout(timer);
-                    },3000);
+                    }, 3000);
 
                 }
-
-
         }
     }
 });
@@ -362,7 +361,8 @@ function getRandomData(size){
             }
         }
         array.push(rand);
-    }
+    }  // dsafsda
 }
-module.exports = Android;
+
+module.exports = Android;   //输出口
 

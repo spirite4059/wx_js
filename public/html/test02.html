@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        #ul_big
+        {
+            width: 300px;
+            height: 500px;
+            position: relative;
+            background-color: #e8e8e8;
+        }
+
+        #ul_big li:first-child
+        {
+            width:100%;
+            height:10%;
+            background-color: #00b3ee;      //背景颜色
+        }
+
+        #ul_big li
+        {
+            width: 100%;
+            height:10%;
+            background-color:#c0a16b;
+            border-bottom:1px solid #0000ed;
+        }
+
+        #ul_big li div
+        {
+            width:17%;
+            height:100%;
+            float:left;
+            display: flex;              /* NEW, Spec - Opera 12.1, Firefox 20+ */
+            background-color: palevioletred;
+        }
+
+        #ul_big li div img
+        {
+            width:50%;
+            height:50%;
+            margin: auto ;
+        }
+
+        #ul_big li p
+        {
+            background-color: #00ee00;
+            float: left;
+            width: 83%;
+            height: 100%;
+            font-size: 10px;
+            line-height: 59px;
+        }
+
+    </style>
+
+    <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+
+    <script>
+        //写写代码
+        $( function ()
+            {
+                $.ajax({
+                    type:"get",
+                    url:"../react/js/aaa.json",             //图片的json
+                    async:true,
+                    success: function(res){
+                        //console.log(res);
+                        var divHtml="";                 //
+                        var len=res.length;
+                        for(var i=0;i<len;i++)
+                        {
+                            divHtml+='<li><div><img src="'+res[i].aaa+'"/></div><p>'+res[i].text+'</p></li>'
+                        }
+                        $("#box").append(divHtml);
+                    }
+
+                });
+            }
+        )
+
+    </script>
+</head>
+
+
+<body>
+    <ul id="ul_big">
+        <li>
+            <div>
+                <img src="../img/001.jpg"/>
+            </div>
+            <p><span>发生了什么哈哈哈</span></p>
+        </li>
+        <li>
+            <div>
+                <img src="img/002.jpg"/>
+            </div>
+            <p>你好么么么发</p>
+        </li>
+
+        <li>
+            <div>
+                <img src="img/003.jpg"/>
+            </div>
+            <p>你好么么么发</p>
+        </li>
+
+        <li>
+            <div>
+                <img src="img/004.jpg"/>
+            </div>
+            <p>你好么么么发</p>
+        </li>
+    </ul>
+</body>
+</html>

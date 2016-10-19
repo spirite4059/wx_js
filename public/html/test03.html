@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+
+        #container
+        {
+            float:left;
+            width: 230px;
+            height:500px;
+            display:flex;
+            flex-direction: column;
+            justify-content:space-around;
+            background-color: #ebebeb;
+            align-items: center;
+        }
+
+        #container div
+        {
+            width: 80%;
+            height: 80px;
+            background-color: #00ee00;
+            display:flex;
+            flex-direction:row;         /*横向排着*/
+            align-items: center;
+
+        }
+        #container div div
+        {
+            width: 20%;
+            height: 80%;
+            background-color: #00b3ee;
+        }
+        #container div div img
+        {
+            width: 100%;
+            height: 100%;
+        }
+        #container div p
+         {
+             width: 80%;
+             background-color: #ffeeaa;
+         }
+
+/************  采用flexbox盒子方式，安排盒子里面的内容 **************/
+        #img_ct
+        {
+            float: left;            /* 图片的盒子 */
+            width: 300px;
+            height:500px;
+            background-color: #dddddd;
+            overflow: hidden;       /* 超出部分隐藏 */
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+        }
+
+        #img_ct div
+        {
+            flex-shrink: 0;     /* 不收缩 */
+            width:100%;         /*是父亲容器大小的百分比*/
+            height:100%;
+        }
+
+        #img_ct div img
+        {
+            width:100%;
+            height:100%;
+        }
+
+/****************** 采用正常样式方案 ******************/
+
+        #normal_ct                          /*  最外层的一个框  */
+        {
+            left:500px;
+            position: absolute;                   /* 图片的盒子 */
+            width: 300px;
+            height:500px;
+            /*background-color: #ffeeaa;*/
+            overflow: hidden;              /*超出部分隐藏     */
+        }
+
+        #div_ct                             /* 用来做整体的盒子，移动用 */
+        {
+            position: relative;
+            left: 0px;
+            width: 300px;
+            height:500px;
+            overflow: hidden;
+        }
+
+        #div_move           /* 绝对定位，用来做css偏移用的  */
+        {
+            position: absolute;
+            left:0px;
+            width:1600px;   /*知道为什么了，因为后来增加了一个*/
+            /*display: none;*/
+        }
+
+        #div_move div
+        {
+            float: left;
+            width:300px;
+            height:500px;
+        }
+
+        #div_move div img
+        {
+            width:300px;
+            height:500px;
+        }
+
+        /*******************************************************/
+    </style>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+
+        //当前移动div和目标位置
+        var move_element=function (mov_div,_start_pos,_target_pos)
+        {
+            //取出第一个；
+            var div_mov =  mov_div[0];
+            clearInterval(div_mov.timer);
+
+            var index=1;
+            var target_pos  =_target_pos;
+            var start_pos   =_start_pos;
+
+                //var current_pos   = getComputedStyle(div_mov,"left");
+                //var start_pos=parseInt(current_pos.left);
+                //console.log("start位置"+ _start_pos+":end位置"+_target_pos);
+            
+            var step=(target_pos-start_pos)/30.0;        //30毫秒
+            //div_mov.style.left  =    target_pos+"px";
+
+            //设置一个计时器；
+            div_mov.timer  =  setInterval(
+                    (function (){
+                        start_pos+=step;
+                        if(Math.abs(target_pos-start_pos)<=10)      //
+                        {
+                            start_pos = target_pos;
+                            clearInterval(div_mov.timer);
+                        }
+                        div_mov.style.left=start_pos+"px";
+                        //console.log("最新="+start_pos);
+                    }),30);
+        }
+
+
+        //移动所有的部分
+        var all_mov = function (move_el)
+        {
+            var img_width = move_el.find("div").find("img").width();
+            //var div_move = $("#div_move");  $("#div_move")
+            var divs = move_el.children();
+
+            var first_div = divs[0].cloneNode(true);
+            move_el[0].appendChild(first_div);
+            var len = divs.length ;                          //有几个孩子可以轮换
+
+            move_el[0].style.left=0+"px";                   //设置一下位置
+            //div_move.style.left = 0 + "px";                 //第一次左侧的位置
+            var currentIndex = 1;
+            var timer = setInterval(mov, 2000); //等2000之后运行
+
+            function mov()
+            {
+                if (currentIndex == 4)   //4
+                {
+                        //console.log("currentIndex=" + currentIndex + "|||len=" + (len + 1));
+                    move_el[0].style.left = 0 + "px";
+                    move_element(move_el, 0 , -300);
+                    currentIndex = 2;
+                }
+                else {
+                    move_element(move_el, (currentIndex-1)*(-300),currentIndex * (-300));
+                    //startMove(oUL,{left:currentIndex*-imgWidth});
+                    currentIndex++;
+                }
+            }
+
+            //console.log(img_width);
+            //移动某个单元
+            //move_element($("#div_move"));
+        }
+
+
+        $(function () {
+            all_mov($("#div_move"));
+        })
+
+    </script>
+</head>
+
+<body>
+    <!--轮训图片内容-->
+    <div>
+        <div id="normal_ct">
+            <div id="div_ct">
+                <div id="div_move">
+                    <div>
+                        <img src="../img/001.jpg"  />
+                    </div>
+                    <div>
+                        <img src="../img/002.jpg"  />
+                    </div>
+                    <div>
+                        <img src="../img/003.jpg"  />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div id="container">-->
+        <!--<div>-->
+            <!--<div>-->
+                <!--<img src="../img/001.jpg"/>-->
+            <!--</div>-->
+            <!--<p>这是第一次用flex的标签</p>-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--<div>-->
+                <!--<img src="../img/001.jpg"/>-->
+            <!--</div>-->
+            <!--<p>这是第一次用flex的标签</p>-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--<div>-->
+                <!--<img src="../img/003.jpg"/>-->
+            <!--</div>-->
+            <!--<p>这是第一次用flex的标签</p>-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--<div>-->
+                <!--<img src="../img/004.jpg"/>-->
+            <!--</div>-->
+            <!--<p>这是第一次用flex的标签</p>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div id="img_ct">-->
+        <!--<div>-->
+            <!--<img src="../img/001.jpg"  />-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--<img src="../img/002.jpg"  />-->
+        <!--</div>-->
+    <!--</div>-->
+
+</body>
+</html>

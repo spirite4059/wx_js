@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <!--<meta name="HandheldFriendly" content="True">-->
+        <!--<meta name="MobileOptimized" content="320">-->
+        <!--<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">-->
+        <!--<meta name="format-detection" content="telephone=no">-->
+        <!--<meta http-equiv="cleartype" content="on">-->
+        <title>Hello,Facebook</title>
+
+        <link href="./css/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="./css/bootstarp/bootstrap.min.css" rel="stylesheet" />
+        <link href="./css/bootstarp/bootstrap-theme.min.css" rel="stylesheet" />
+
+        <!--<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" />-->
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript" src="react/js/img_down.js"></script>
+
+        <style>
+
+            html,body
+            {
+                background-color: #00000000;
+                width:100%;
+                height:100%
+            }
+
+            #wrapper{
+                width:100%;
+                height: 100%;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <div id="wrapper">
+        </div>
+
+        <div id="banner">
+            <ul class="img-list on">
+            </ul>
+        </div>
+
+        <!--<script src="./js/common.js"></script>-->
+        <!--<script src="./js/bundle.js"></script>-->
+
+    <script>
+//        $.ajax({
+//            type: "get",
+////              dataType: 'jsonp',
+////              url: "http://192.168.2.242:8092/jpg_json",
+////              context: document.body,
+//            url: "abc.json",
+//            async: false,
+//            success:function(res){
+////					alert("success");
+//                var len=res.length;
+//                var divHtml="";
+//
+//                //循环遍历传输的文件全部显示到页面上
+//                for(var i=0;i<len;i++){
+//                    divHtml+='<li><img src="'+res[i].src+'"/></li>'
+//                }
+//
+//                //将内容添加到页面上
+//                $("#banner").find(".img-list").html(divHtml);
+//                $("#banner").find(".img-list").find("li").css({'width': '220px','float': 'left','border': '0'});
+//                //设置图片样式
+//                $("#banner").find(".img-list").find("li").find("img").css({'width':'220px','height': '288px'});
+//                console.log($(".img-list"));
+//                lunbo(len,$(".img-list"),2000);
+//
+//            },
+//            error:function(){
+//                alert("error");
+//            }
+//        });
+//
+//        var currentUl=0;
+//        setInterval(function(){
+//            currentUl++;
+//            if(currentUl%2==0){
+//                $("#banner").find("ul").eq(0).addClass("on").next().removeClass("on");
+//            }
+//            else{
+//                $("#banner").find("ul").eq(0).removeClass("on").next().addClass("on");
+//            }
+//        },10000);
+
+//        //做个内容的请求
+//        $(document).ready(function()
+//        {
+//            $.ajax({
+//                type: "get",
+//                dataType: 'jsonp',
+//                url: "http://192.168.2.242:8092/jpg_json",
+//                context: document.body,
+//                success: function (res) {
+//                    alert("success");
+//                }
+//            });
+//        });
+
+
+//解析json，json里面应该有若干模块
+//        var module_json = ;     //
+//        var source_img=[];  //放下载的资源文件
+//        var test_img;
+//
+//        //这是一个函数，确保图片一定能下载完成
+//        var source_sure=function (source_list){}
+//输入是图片数组，成功回调；失败回调？是否会有内存问题；
+
+
+//***********************调用的例子****************************
+
+        var succ_callback=function (imgs)
+        {
+            //图片保存在该数组中
+            for(key in imgs)
+            {
+                console.log("图片"+imgs[key].img);
+                console.log("图片地址：" +imgs[key].url);    //
+            }
+        }
+
+
+        var error_callback=function (imgs)
+        {
+            //图片保存在该数组中
+            for(key in imgs)
+            {
+                console.log("图片"+imgs[key].img);
+                console.log("图片地址：" +imgs[key].url);
+            }
+        }
+
+        //这块是将图片放到数组中，并开始下载执行
+        var img1_url    =   "http://cnews.chinadaily.com.cn/img/attachement/jpg/site1/20160715/a41f726b051118f287c414.jpg";
+        var img2_url    =   "http://www.a.com/test.jpg"; //preview.quanjing.com/fod_liv002/fo-11171537.jpg
+        var img3_url    =   "http://www.b.com/1asdafasd.jpg";
+
+        var m0_imgs = new Array();
+        m0_imgs.push(
+                {img_index:1,url:img1_url,ready:false,is_error:false,error_count:0,img:null},
+                {img_index:2,url:img2_url,ready:false,is_error:false,error_count:0,img:null},
+                {img_index:3,url:img3_url,ready:false,is_error:false,error_count:0,img:null}
+        ); //图片压栈
+
+        download_fun(m0_imgs,succ_callback,error_callback);         //执行一下
+
+    </script>
+
+
+    <script>    //写个模块
+
+    </script>
+
+
+
+    </body>
+</html>
+
+
+
+
+
+

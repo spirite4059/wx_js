@@ -1,21 +1,26 @@
-/**
- * Created by Administrator on 2016/3/7.
- */
+
+/**   Created by Administrator on 2016/3/7.  **/
+
 var webpack = require('webpack');
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 
-module.exports = {
-    //插件
+//输出
+module.exports  =
+{
+    //插件：就是把common.js的提出来，不再反复加载
     plugins:[commonsPlugin],
+
     //页面入口
     entry:{
         main:'./public/react/router.js'
     },
+    
     //出口
     output:{
         path:'./public/js',
         filename:'bundle.js'
     },
+
     //配置加载器,配置每个文件类型的处理方式，这里使用react的jsx
     module:{
         loaders:[
@@ -59,6 +64,7 @@ module.exports = {
         ]
     },
     resolve: {
+       
         //查找module的话从这里开始查找
         root: './', //绝对路径
         //自动扩展文件后缀名，意味着我们require模块可以省略不写后缀名
@@ -71,6 +77,4 @@ module.exports = {
     devServer: {
         historyApiFallback: true
     }
-
-
 }
